@@ -1,9 +1,9 @@
 <?php
 
-class CreateAdminAccount implements IWebApplicationInstaller_CustomScript
+class CreateAdminAccount implements IWebApplicationInstaller_Script
 {
     /**
-     * @see IWebApplicationInstaller_CustomScript::run()
+     * @see IWebApplicationInstaller_Script::run()
      */
     public function run()
     {
@@ -11,7 +11,7 @@ class CreateAdminAccount implements IWebApplicationInstaller_CustomScript
     }
 
     /**
-     * @see IWebApplicationInstaller_CustomScript::getErrorMsg()
+     * @see IWebApplicationInstaller_Script::getErrorMsg()
      */
     public function getErrorMsg()
     {

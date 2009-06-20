@@ -1,9 +1,9 @@
 <?php
 
-class CheckPreviousInstallstion implements IWebApplicationInstaller_CustomScript
+class CheckPreviousInstallstion implements IWebApplicationInstaller_Script
 {
     /**
-     * @see IWebApplicationInstaller_CustomScript::run()
+     * @see IWebApplicationInstaller_Script::run()
      */
     public function run()
     {

@@ -24,6 +24,7 @@ class WAI
 	private $logo = '';
 	private $title = '';
 	private $request_data;
+	private $do_validate = false;
 	
 	public static function setLanguage($lng = 'en_EN')
 	{
@@ -104,23 +105,28 @@ class WAI
 	
 	public static function validateCustom($custom_class_name)
 	{
-		if(!class_exists($custom_class_name, true))
+		return self::validate($custom_class_name, 'custom');
+	}
+	
+	public static function validate($class_name, $type = 'validate')
+	{
+		if(!class_exists($class_name, true))
 		{
-			if(!is_readable('install/custom/' . $custom_class_name . '.php'))
+			if(!is_readable('install/' . $type . '/' . $class_name . '.php'))
 			{
-				throw new Exception('ClassFile "install/custom/' . $custom_class_name . '.php" Not Found');
+				throw new Exception('ClassFile "install/' . $type . '/' . $class_name . '.php" Not Found');
 			}
 			
-			include('install/custom/' . $custom_class_name . '.php');
+			include('install/' . $type . '/' . $class_name . '.php');
 		}
 		
-		if(!class_exists($custom_class_name, true))
+		if(!class_exists($class_name, true))
 		{
-			throw new Exception('Class "' . $custom_class_name . '" Not Found');
+			throw new Exception('Class "' . $class_name . '" Not Found');
 		}
-		$cls = new $custom_class_name();
+		$cls = new $class_name();
 		
-		if($cls instanceof IWebApplicationInstaller_CustomScript)
+		if($cls instanceof IWebApplicationInstaller_Script)
 		{
 			if(!$cls->run())
 			{
@@ -129,17 +135,24 @@ class WAI
 		}
 		else
 		{
-			throw new Exception('Class "' . $custom_class_name . '" must be implementing IWebApplicationInstaller_CustomScript');
+			throw new Exception('Class "' . $custom_class_name . '" must be implementing IWebApplicationInstaller_Script');
 		}
 	}
 	
 	public static function requestDatabaseSettings($type, $parameter = null)
 	{
+		$wai = self::getInstance();
+		
 		switch($type)
 		{
 			case self::DB_MySQL:
 
 				self::text('=== MySQL Database ===');
+				
+				if($wai->do_validate)
+				{
+					$wai->validate('MySQL_Database');
+				}
 
 				WAI::textField('database_server', 'MySQL server:', 'localhost');
 				WAI::textField('database_username', 'MySQL username:', 'root');
@@ -238,6 +251,15 @@ class WAI
 		echo $wai->getHtmlHeader() . $wai->html_string . $wai->getHtmlFooter();
 	}
 	
+	public static function checkRequest()
+	{
+		if(isset($_POST) && sizeof($_POST) > 0)
+		{
+			$wai = self::getInstance();
+			$wai->do_validate = true;
+		}
+	}
+	
 	public static function getWikiParser()
 	{
 		if(self::$wiki_parser === null)
@@ -262,10 +284,12 @@ class WAI
 	private function __clone(){}
 }
 
-interface IWebApplicationInstaller_CustomScript
+interface IWebApplicationInstaller_Script
 {
 	public function run();
 	public function getErrorMsg();
 }
+
+WAI::checkRequest();
 
 ?>
