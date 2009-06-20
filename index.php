@@ -4,9 +4,9 @@ require_once('install/lib/WebApplicationInstaller.class.php');
 
 WAI::setLanguage('de_DE');
 
-WAI::setStyle('custom/css/silverstripe.css');
+WAI::setStyle('install/custom/css/silverstripe.css');
 WAI::setTitle('SilverStripe CMS Installation');
-WAI::setLogo('custom/images/silverstripe.png');
+WAI::setLogo('install/custom/images/silverstripe.png');
 
 WAI::text('== Welcome to SilverStripe ==
 	
@@ -15,7 +15,10 @@ Thanks for choosing to use SilverStripe! Please follow the instructions below to
 WAI::dropdownField(
 	'template',
 	'Template to install:',
-	'',
+	array(
+		'mysite'
+	),
+	'mysite',
 	'You can change the template or download another from the SilverStripe website after installation.'
 );
 

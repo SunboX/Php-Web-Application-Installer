@@ -23,6 +23,7 @@ class WAI
 	private $style = '';
 	private $logo = '';
 	private $title = '';
+	private $request_data;
 	
 	public static function setLanguage($lng = 'en_EN')
 	{
@@ -31,7 +32,8 @@ class WAI
 	
 	public static function setStyle($css_file)
 	{
-		
+		$wai = self::getInstance();
+		$wai->style = $css_file;
 	}
 	
 	public static function setTitle($title = 'Installer')
@@ -52,9 +54,20 @@ class WAI
 		$wai->html_string .= $parser->parse($string);
 	}
 	
-	public static function dropdownField($field_name, $label, $default_value = '', $field_description = '')
+	public static function dropdownField($field_name, $label = '', $values = array(), $default_value = '', $field_description = '')
 	{
+		if(!is_array($values)) return;
 		
+		$wai = self::getInstance();
+		$id = $field_name . '_' . microtime();
+		
+		if($label != '') $wai->html_string .= '<label for="">' . $label . '</label>';
+		$wai->html_string .= '<select name="' . $field_name . '" id="' . $id . '">';
+		foreach($values as $value)
+		{
+			$wai->html_string .= '<option value="' . $value . '"' . ($value == $wai->getRequest($field_name, $default_value) ? 'selected="selected"' : '') . '>' . $value . '</select>';
+		}
+		$wai->html_string .= '</select>';
 	}
 	
 	public static function textField($field_name, $label, $default_value = '', $field_description = '')
@@ -126,6 +139,15 @@ class WAI
 	private function translate($string)
 	{
 		return $string;
+	}
+	
+	private function getRequest($name, $default = null)
+	{
+		if($this->request_data === null)
+		{
+			$this->request_data = array_merge($_POST, $_GET, $_COOKIE);
+		}
+		return isset($this->request_data[$name]) ? $this->request_data[$name] : $default;
 	}
 	
 	private function getHtmlHeader()
