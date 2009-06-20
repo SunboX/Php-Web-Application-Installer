@@ -137,7 +137,7 @@ class WAI
 		{
 			case self::DB_MySQL:
 
-				self::text('MySQL Database');
+				self::text('=== MySQL Database ===');
 
 				WAI::textField('database_server', 'MySQL server:', 'localhost');
 				WAI::textField('database_username', 'MySQL username:', 'root');
