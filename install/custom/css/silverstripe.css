@@ -11,7 +11,7 @@ h3 { color: gray; }
 
 label { display: block; margin-top: 10px; font-weight: bold; }
 
-input.action { float: left; margin-top: 20px; }
+input.action { float: left; margin-top: 20px; margin-bottom: 20px; }
 
 ul{
 	list-style: none;

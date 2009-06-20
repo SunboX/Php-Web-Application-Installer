@@ -25,10 +25,16 @@ class WAI
 	private $title = '';
 	private $request_data;
 	private $do_validate = false;
+	private $lang;
 	
-	public static function setLanguage($lng = 'en_EN')
+	public static function setLanguage($lang = 'en_EN')
 	{
-		
+		if(is_readable('install/lang/' . $lang . '.php'))
+		{
+			include('install/lang/' . $lang . '.php');
+			$wai = self::getInstance();
+			$wai->lang = $lang;
+		}
 	}
 	
 	public static function setStyle($css_file)
@@ -195,11 +201,34 @@ class WAI
 	
 	private function translate($string, $parse = true)
 	{
+		$wai = self::getInstance();
+		
+		$params = array();
+		if(is_array($string))
+		{
+			if(sizeof($string) > 1)
+			{
+				$params = $string[1];
+			}
+			$string = $string[0];
+		}
+		
+		if(is_array($wai->lang) && isset($wai->lang[$string]))
+		{
+			$string = $wai->lang[$string];
+		}
+		
 		if($parse)
 		{
 			$parser = self::getWikiParser();
-			return $parser->parse($string);	
+			$string = $parser->parse($string);	
 		}
+		
+		foreach($params as $i => $param)
+		{
+			$string = str_replace('{p' . ($i + 1) . '}', $param, $string);
+		}
+		
 		return $string;
 	}
 	

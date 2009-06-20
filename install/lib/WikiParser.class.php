@@ -72,7 +72,7 @@ class WikiParser {
 		$newlevel = ($close) ? 0 : strlen($matches[1]);
 		
 		while ($this->list_level!=$newlevel) {
-			$listchar = substr($matches[1],-1);
+			$listchar = mb_substr($matches[1], -1, 'UTF-8');
 			$listtype = $listtypes[$listchar];
 			
 			//$output .= "[".$this->list_level."->".$newlevel."]";

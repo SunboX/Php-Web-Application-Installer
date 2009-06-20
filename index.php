@@ -8,9 +8,8 @@ WAI::setStyle('install/custom/css/silverstripe.css');
 WAI::setTitle('SilverStripe CMS Installation');
 WAI::setLogo('install/custom/images/silverstripe.png');
 
-WAI::text('== Welcome to SilverStripe ==
-	
-Thanks for choosing to use SilverStripe! Please follow the instructions below to get SilverStripe installed.');
+WAI::text('== Welcome to SilverStripe ==');
+WAI::text('Thanks for choosing to use SilverStripe! Please follow the instructions below to get SilverStripe installed.');
 
 WAI::dropdownField(
 	'template',

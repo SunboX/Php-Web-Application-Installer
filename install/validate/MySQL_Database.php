@@ -28,7 +28,10 @@ class MySQL_Database implements IWebApplicationInstaller_Script
 
 		if(!$conn || mysql_errno() >= 2000)
 		{
-			$this->error_msg = 'can\'t find the a MySQL server on ' . $wai->getRequest('database_server') . ': ' . mysql_error();
+			$this->error_msg = array('can\'t find the a MySQL server on {p1}: {p2}', array(
+				$wai->getRequest('database_server'), 
+				mysql_error()
+			));
 			return false;
 		}
 		
@@ -58,7 +61,10 @@ class MySQL_Database implements IWebApplicationInstaller_Script
 						
 			if(($majorHas < $majorRequested) || ($majorHas == $majorRequested && $minorHas < $minorRequested))
 			{
-				$this->error_msg = 'MySQL version 4.1 is required, you only have ' . $majorHas . '.' . $minorHas;
+				$this->error_msg = array('MySQL version 4.1 is required, you only have {p1}.{p2}', array(
+					$majorHas, 
+					$minorHas
+				));
 				return false;
 			}
 		}
@@ -76,7 +82,7 @@ class MySQL_Database implements IWebApplicationInstaller_Script
 		}
 		else
 		{
-			$this->error_msg = 'user \'' . $wai->getRequest('database_username') . '\' doesn\'t have CREATE DATABASE permissions.';
+			$this->error_msg = array('User \'{p1}\' doesn\'t have CREATE DATABASE permissions.', array($wai->getRequest('database_username')));
 			return false;
 		}
 		
