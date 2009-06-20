@@ -1,6 +1,6 @@
 <?php
 
-require_once('lib/WebApplicationInstaller.class.php');
+require_once('install/lib/WebApplicationInstaller.class.php');
 
 WAI::setLanguage('de_DE');
 

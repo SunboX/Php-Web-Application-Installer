@@ -76,12 +76,12 @@ class WAI
 	{
 		if(!class_exists($custom_class_name, true))
 		{
-			if(!is_readable('custom/' . $custom_class_name . '.php'))
+			if(!is_readable('install/custom/' . $custom_class_name . '.php'))
 			{
-				throw new Exception('ClassFile "custom/' . $custom_class_name . '.php" Not Found');
+				throw new Exception('ClassFile "install/custom/' . $custom_class_name . '.php" Not Found');
 			}
 			
-			include('custom/' . $custom_class_name . '.php');
+			include('install/custom/' . $custom_class_name . '.php');
 		}
 		
 		if(!class_exists($custom_class_name, true))
@@ -92,7 +92,7 @@ class WAI
 		
 		if($cls instanceof IWebApplicationInstaller_CustomScript)
 		{
-			if($cls->run())
+			if(!$cls->run())
 			{
 				self::errorMsg($cls->getErrorMsg());
 			}
@@ -165,12 +165,11 @@ class WAI
 		echo $wai->getHtmlHeader() . $wai->html_string . $wai->getHtmlFooter();
 	}
 	
-	
 	public static function getWikiParser()
 	{
 		if(self::$wiki_parser === null)
 		{
-			require_once('lib/WikiParser.class.php');
+			require_once('install/lib/WikiParser.class.php');
 			
 			self::$wiki_parser = new WikiParser();
 		}
