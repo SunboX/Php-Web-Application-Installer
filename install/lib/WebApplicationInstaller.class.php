@@ -52,22 +52,22 @@ class WAI
 		$wai->html_string .= $parser->parse($string);
 	}
 	
-	public static function dropdownField($filed_name, $label, $default_value = '', $field_description = '')
+	public static function dropdownField($field_name, $label, $default_value = '', $field_description = '')
 	{
 		
 	}
 	
-	public static function textField($filed_name, $label, $default_value = '', $field_description = '')
+	public static function textField($field_name, $label, $default_value = '', $field_description = '')
 	{
 		
 	}
 	
-	public static function textareaField($filed_name, $label, $default_value = '', $field_description = '')
+	public static function textareaField($field_name, $label, $default_value = '', $field_description = '')
 	{
 		
 	}
 	
-	public static function checkboxField($filed_name, $label, $default_value = '', $field_description = '')
+	public static function checkboxField($field_name, $label, $default_value = '', $field_description = '')
 	{
 		
 	}
