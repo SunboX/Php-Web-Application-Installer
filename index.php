@@ -22,7 +22,7 @@ WAI::dropdownField(
 	'You can change the template or download another from the SilverStripe website after installation.'
 );
 
-WAI::checkboxField('send_information', 'Send information on my webserver to SilverStripe (this is only version information, used for statistical purposes)', true);
+WAI::checkboxField('send_information', 'Send information on my webserver to SilverStripe (this is only version information, used for statistical purposes)', true, true);
 
 WAI::validateCustom('CheckPreviousInstallstion');
 
