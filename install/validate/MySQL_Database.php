@@ -12,21 +12,31 @@ class MySQL_Database implements IWebApplicationInstaller_Script
      */
     public function run()
     {
+    	$wai = WAI::getInstance();
+		
     	if(!function_exists('mysql_connect'))
 		{
 			$this->error_msg = 'MySQL support not included in PHP.';
 			return false;
 		}
 		
-		$conn = @mysql_connect($server, null, null);
+		$conn = @mysql_connect(
+			$wai->getRequest('database_server'),
+			null,
+			null
+		);
 
 		if(!$conn || mysql_errno() >= 2000)
 		{
-			$this->error_msg = 'can\'t find the a MySQL server on ' . $databaseConfig[server] . ': ' . mysql_error();
+			$this->error_msg = 'can\'t find the a MySQL server on ' . $wai->getRequest('database_server') . ': ' . mysql_error();
 			return false;
 		}
 		
-		$conn = @mysql_connect($server, $username, $password);
+		$conn = @mysql_connect(
+			$wai->getRequest('database_server'),
+			$wai->getRequest('database_username'),
+			$wai->getRequest('database_password')
+		);
 		
 		if(!$conn)
 		{
@@ -53,7 +63,7 @@ class MySQL_Database implements IWebApplicationInstaller_Script
 			}
 		}
 		
-		if(@mysql_select_db($database))
+		if(@mysql_select_db($wai->getRequest('database_database')))
 		{
 			return true;
 		}
@@ -66,7 +76,7 @@ class MySQL_Database implements IWebApplicationInstaller_Script
 		}
 		else
 		{
-			$this->error_msg = "user '$username' doesn't have CREATE DATABASE permissions.";
+			$this->error_msg = 'user \'' . $wai->getRequest('database_username') . '\' doesn\'t have CREATE DATABASE permissions.';
 			return false;
 		}
 		

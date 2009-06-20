@@ -203,7 +203,7 @@ class WAI
 		return $string;
 	}
 	
-	private function getRequest($name, $default = null)
+	public function getRequest($name, $default = null)
 	{
 		if($this->request_data === null)
 		{
