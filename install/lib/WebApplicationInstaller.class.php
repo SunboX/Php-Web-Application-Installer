@@ -38,12 +38,14 @@ class WAI
 	
 	public static function setTitle($title = 'Installer')
 	{
-		
+		$wai = self::getInstance();
+		$wai->title = $title;	
 	}
 	
 	public static function setLogo($logo_file)
 	{
-		
+		$wai = self::getInstance();
+		$wai->logo_file = $logo_file;
 	}
 	
 	public static function text($string = '')
@@ -199,9 +201,9 @@ class WAI
 		
 		$header .= '</head><body>';
 		
-		if($wai->logo != '')
+		if($wai->logo_file != '')
 		{
-			$header .= '<img src="' . $wai->logo . '" />';
+			$header .= '<img src="' . $wai->logo_file . '" />';
 		}
 		
 		$header .= '<form name="install_fom" id="install_fom" method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="application/x-www-form-urlencoded" accept-charset="UTF-8">';
