@@ -165,6 +165,21 @@ class WAI
 		
 	}
 	
+	public static function errorMsg($string)
+	{
+		$wai = self::getInstance();
+		$wai->has_error = true;
+		
+		$wai->html_string .= '<p class="error">' . $wai->translate($string) . '</p>';
+	}
+	
+	public static function warningMsg($string)
+	{
+		$wai = self::getInstance();
+		
+		$wai->html_string .= '<p class="warning">' . $wai->translate($string) . '</p>';
+	}
+	
 	private function translate($string, $parse = true)
 	{
 		if($parse)
