@@ -204,7 +204,7 @@ class WAI
 			$header .= '<img src="' . $wai->logo . '" />';
 		}
 		
-		$header .= '<form name="install_fom" id="install_fom" method="post" action="' . $_SESSION['PHP_SELF'] . '" enctype="application/x-www-form-urlencoded" accept-charset="UTF-8">';
+		$header .= '<form name="install_fom" id="install_fom" method="post" action="' . $_SERVER['PHP_SELF'] . '" enctype="application/x-www-form-urlencoded" accept-charset="UTF-8">';
 		
 		return $header;
 	}
