@@ -1,10 +1,11 @@
 body {
-	text-align: LEFT;
+	padding: 20px;
+	text-align: left;
 	font-family: Verdana, Geneva, Arial, Helvetica, sans-serif;
 	font-size: 0.8em;
 }
 
-h2 { color: blue; }
+h2 { color: #2E9CD6; }
 
 h3 { color: gray; }
 
@@ -113,16 +114,4 @@ p.mysql,
 p.adminAcc,
 p.devHelp {
 	padding-top: 20px;
-}
-p#mysql_credentials,
-p#AdminAccount,
-p#DevSites {
-	width: 330px;
-	margin-top: 0;
-	float: left;
-}
-#Layout input.action {
-	text-align: center;
-	width: 160px;
-	font-size: 1em;
 }
