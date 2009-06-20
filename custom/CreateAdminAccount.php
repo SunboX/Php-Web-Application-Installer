@@ -7,7 +7,7 @@ class CreateAdminAccount implements IWebApplicationInstaller_CustomScript
      */
     public function run()
     {
-        //TODO Auto generated method stub
+        return true; // no error
     }
 
     /**
