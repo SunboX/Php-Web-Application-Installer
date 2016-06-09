@@ -14,48 +14,46 @@ class MySQL_Database implements IWebApplicationInstaller_Script
     {
     	$wai = WAI::getInstance();
 		
-    	if(!function_exists('mysql_connect'))
+    	if(!function_exists('mysqli_connect'))
 		{
 			$this->error_msg = 'MySQL support not included in PHP.';
 			return false;
 		}
 		
-		$conn = @mysql_connect(
-			$wai->getRequest('database_server'),
+		$conn = @(new mysqli($wai->getRequest('database_server'),
 			null,
-			null
-		);
+			null));
 
-		if(!$conn || mysql_errno() >= 2000)
+		if(!$conn || $conn->connect_errno() >= 2000)
 		{
 			$this->error_msg = array('can\'t find the a MySQL server on {p1}: {p2}', array(
 				$wai->getRequest('database_server'), 
-				mysql_error()
+				$conn->connect_error();
 			));
 			return false;
 		}
 		
-		$conn = @mysql_connect(
+		$conn = @(new mysqli(
 			$wai->getRequest('database_server'),
 			$wai->getRequest('database_username'),
 			$wai->getRequest('database_password')
-		);
+		));
 		
-		if(!$conn)
+		if($conn->connect_error)
 		{
 			$this->error_msg = 'That username/password doesn\'t work';
 			return false;
 		}
 		
-		if(!mysql_get_server_info())
+		if(!$conn->server_info)
 		{
 			WAI::warningMsg('Cannot determine the version of MySQL installed. Please ensure at least version 4.1 is installed.');
 		}
 		else
 		{
 			list($majorRequested, $minorRequested) = explode('.', '4.1');
-			$result = mysql_query('SELECT VERSION()');
-			$row=mysql_fetch_row($result);
+			$result = $conn->query('SELECT VERSION()');
+			$row=$result->fetch_row();
 			$version = ereg_replace('([A-Za-z-])', '', $row[0]);
 			list($majorHas, $minorHas) = explode('.', substr(trim($version), 0, 3));
 						
@@ -69,14 +67,11 @@ class MySQL_Database implements IWebApplicationInstaller_Script
 			}
 		}
 		
-		if(@mysql_select_db($wai->getRequest('database_database')))
-		{
-			return true;
-		}
 		
-		if(@mysql_query('CREATE DATABASE testing123'))
+		
+		if(@$conn->query('CREATE DATABASE testing123'))
 		{
-			mysql_query('DROP DATABASE testing123');
+			$conn->query('DROP DATABASE testing123');
 			return true;
 
 		}
