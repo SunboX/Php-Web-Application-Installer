@@ -13,4 +13,4 @@ If you think i missed something or do it wrong send me a message!
 License
 ---
 
-See [license](master/license) file.
+See [license](license) file.
