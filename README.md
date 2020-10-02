@@ -2,6 +2,7 @@ Php Web Application Installer
 ===
 
 My first try to build a universal web application installer.
+ This a nice and easy tool
 
 I will try to build it as generic and simple as possible.
 So it will hopefully fit every ones needs.
